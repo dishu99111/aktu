@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AKTU One View - Result</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f3f3f3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        width: 350px;
+        text-align: center;
+    }
+    h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+    input {
+        width: 90%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #0077b6;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #005f8a;
+    }
+    .error {
+        color: red;
+        font-size: 14px;
+        margin-top: -10px;
+        margin-bottom: 10px;
+    }
+    a {
+        display: block;
+        margin: 10px 0;
+        color: #0077b6;
+        font-size: 16px;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+
+<!-- Step 1: Roll number -->
+<div class="container" id="step1">
+    <h2>AKTU One View</h2>
+    <form id="rollForm">
+        <input type="text" id="rollNumber" placeholder="Enter Roll Number" required>
+        <br>
+        <button type="submit">View Result</button>
+    </form>
+</div>
+
+<!-- Step 2: DOB -->
+<div class="container" id="step2" style="display:none;">
+    <h2>Verify Date of Birth</h2>
+    <form id="dobForm">
+        <input type="text" id="dob" placeholder="DD/MM/YYYY" required>
+        <div class="error" id="dobError" style="display:none;">Invalid Date of Birth</div>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<!-- Step 3A: Result Links for Roll 2301130300010 -->
+<div class="container" id="step3a" style="display:none;">
+    <h2>Available Results</h2>
+    <a href="#" id="sem12_a" target="_blank">Semester 1 & 2 Combined Result</a>
+    <a href="#" id="sem3_a" target="_blank">Semester 3 Result</a>
+</div>
+
+<!-- Step 3B: Result Link for Roll 2300540100069 -->
+<div class="container" id="step3b" style="display:none;">
+    <h2>Available Results</h2>
+    <a href="#" id="sem12_b" target="_blank">Semester 1 & 2 Combined Result</a>
+</div>
+
+<script>
+    const correctDOB = "22/02/2006";
+    let currentRoll = "";
+
+    // Step 1 → Step 2 or Step 3B
+    document.getElementById("rollForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        currentRoll = document.getElementById("rollNumber").value.trim();
+
+        if (currentRoll === "2301130300010") {
+            document.getElementById("step1").style.display = "none";
+            document.getElementById("step2").style.display = "block";
+        } else if (currentRoll === "2300540100069") {
+            document.getElementById("step1").style.display = "none";
+            document.getElementById("step3b").style.display = "block";
+        } else {
+            alert("Result not found for entered Roll Number.");
+        }
+    });
+
+    // Step 2 → Step 3A
+    document.getElementById("dobForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        let enteredDOB = document.getElementById("dob").value.trim();
+        if (enteredDOB === correctDOB) {
+            document.getElementById("step2").style.display = "none";
+            document.getElementById("step3a").style.display = "block";
+        } else {
+            document.getElementById("dobError").style.display = "block";
+        }
+    });
+
+    // Assign PDF links
+    // Case 1 (Roll = 2301130300010)
+    document.getElementById("sem12_a").href = "One View by AKTU SDC Team (1).pdf"; // Replace with your PDF A
+    document.getElementById("sem3_a").href = "aktu result (sem3).pdf";     // Replace with your PDF B
+
+    // Case 2 (Roll = 2300540100069)
+    document.getElementById("sem12_b").href = "devansh.pdf"; // Replace with your PDF C
+</script>
+
+</body>
+</html>
